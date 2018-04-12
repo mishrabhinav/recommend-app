@@ -15,7 +15,7 @@ export const FormContainer = styled.View`
 export const PastContainer = styled.View`
   flex: 2;
   width: 100%;
-  background-color: #f6f7f9;
+  background-color: #f9f9f9;
   align-items: center;
 `;
 
@@ -24,8 +24,13 @@ export const StartRow = styled.View`
   flex-direction: row;
 `;
 
+export const Row = styled.View`
+  margin: 0px 20px;
+  flex-direction: row;
+`;
+
 export const DestRow = styled.View`
-  margin: 0px 20px 20px;
+  margin: 10px 20px;
   flex-direction: row;
 `;
 

@@ -44,7 +44,7 @@ export default function AutoComplete ({ placeholder, onPress }) {
         container: {
           paddingLeft: 0,
           paddingRight: 0,
-          paddingTop: 10
+          paddingTop: 0
         },
         separator: {
           backgroundColor: '#EEEEEE'
