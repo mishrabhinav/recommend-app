@@ -3,7 +3,7 @@ import { fromJS } from 'immutable';
 import { AppRegistry } from 'react-native';
 import { Provider } from 'react-redux';
 
-import RootNavigation from './src/nav/Root';
+import RootNavigation from './src/nav';
 import configureStore from './src/store';
 
 const initialState = fromJS({});
