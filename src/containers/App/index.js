@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Text, View, FlatList } from 'react-native';
+import { Text, View, FlatList, LayoutAnimation } from 'react-native';
 
 import Autocomplete from '../../components/Autocomplete';
 import ListItem from '../../components/ListItem';
@@ -19,6 +19,7 @@ class App extends React.Component {
     this._setLocation = this._setLocation.bind(this);
     this._setStartLocation = this._setStartLocation.bind(this);
     this._setDestination = this._setDestination.bind(this);
+    this._getDirections = this._getDirections.bind(this);
   }
   componentDidMount() {
     // this.props.navigation.navigate('DrawerOpen');
@@ -26,6 +27,8 @@ class App extends React.Component {
 
   _setLocation(data, details, location) {
     if (details) {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+
       const { lat, lng } = details.geometry.location;
       this.dispatch(setLocation(lat, lng, location));
     }
@@ -39,8 +42,14 @@ class App extends React.Component {
     this._setLocation(data, details, DESTINATION);
   }
 
+  _getDirections() {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+
+    this.dispatch(fetchDirectionsRequest());
+  }
+
   render() {
-    const { start, destination } = this.props;
+    const { start, destination, directions } = this.props;
     const active = start.lat && start.lng && destination.lat && destination.lng;
 
     return (
@@ -53,13 +62,15 @@ class App extends React.Component {
             <Autocomplete placeholder='Destination' onPress={this._setDestination} />
           </styled.Row>
           <styled.DestRow>
-            <Button title='Get Directions' onPress={() => this.dispatch(fetchDirectionsRequest())} active={active}/>
+            <Button title='Get Directions' onPress={this._getDirections} active={active}/>
           </styled.DestRow>
         </styled.FormContainer>
         <styled.PastContainer>
           <styled.List
-            data={listData}
-            renderItem={({ item }) => <ListItem data={item} mode={item._mode} keyExtractor={item => item._id}/>}
+            // data={listData}
+            data={(directions.data && directions.data['directions']) || []}
+            keyExtractor={item => item._id}
+            renderItem={({ item }) => <ListItem data={item} mode={item._mode}/>}
           />
         </styled.PastContainer>
       </styled.Container>

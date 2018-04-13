@@ -6,7 +6,11 @@ import {
 
   FETCH_DIRECTIONS_SUCCESS,
   FETCH_DIRECTIONS_ERROR,
-  TOGGLE_DIRECTIONS_LOADING
+  TOGGLE_DIRECTIONS_LOADING,
+
+  SELECT_DIRECTION_SUCCESS,
+  SELECT_DIRECTION_ERROR,
+  TOGGLE_SELECT_LOADING
 } from './constants';
 
 export const initialState = fromJS({
@@ -26,6 +30,11 @@ export const initialState = fromJS({
     loading: false,
     error: null,
     data: null
+  },
+  selected: {
+    id: null,
+    error: null,
+    loading: false
   }
 });
 
@@ -50,6 +59,15 @@ export default function appPageReducer (state = initialState, action) {
 
     case TOGGLE_DIRECTIONS_LOADING:
       return state.setIn(['directions', 'loading'], !state.getIn(['directions', 'loading']));
+
+    case SELECT_DIRECTION_SUCCESS:
+      return state.setIn(['selected', 'id'], action.id);
+
+    case SELECT_DIRECTION_ERROR:
+      return state.setIn(['selected', 'error'], action.error);
+
+    case TOGGLE_SELECT_LOADING:
+      return state.setIn(['selected', 'loading'], !state.getIn(['selected', 'loading']));
 
     default:
       return state;
