@@ -9,12 +9,11 @@ export const Headline = styled.TouchableOpacity`
 `;
 
 export const Information = styled.View`
-  height: ${props => 4*props.height};
   width: ${props => props.width - 40};
   background-color: white;
   margin: 0px 10px 10px;
-  align-items: center;
-  justify-content: center;
+  padding: 10px;
+  align-items: flex-start;
 `;
 
 export const Mode = styled.View`

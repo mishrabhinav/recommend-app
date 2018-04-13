@@ -16,14 +16,10 @@ const Text = styled.Text`
 
 class Button extends React.Component {
   render() {
-    const {
-      title,
-      onPress,
-      active
-    } = this.props;
+    const { title, onPress,  active } = this.props;
 
     return (
-      <Container onPress={active && onPress} active={active}>
+      <Container onPress={active && onPress} active={active} activeOpacity={active ? 0.6 : 1}>
         <Text active={active}>{title || 'Button'}</Text>
       </Container>
     );
