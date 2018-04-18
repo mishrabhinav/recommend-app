@@ -67,11 +67,10 @@ class App extends React.Component {
         </styled.FormContainer>
         <styled.PastContainer>
           <styled.List
-            // data={listData}
             data={(directions.data && directions.data['directions']) || []}
             keyExtractor={item => item._id}
             renderItem={({ item }) =>
-              <ListItem data={item} mode={item._mode} onLongPress={() => {
+              <ListItem data={item} mode={item._mode} onSelect={() => {
                 this.dispatch(selectDirectionRequest(directions.data['recommendation_id'], item._id));
               }}/>}
           />

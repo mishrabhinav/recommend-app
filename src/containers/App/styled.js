@@ -17,6 +17,7 @@ export const PastContainer = styled.View`
   width: 100%;
   background-color: #f9f9f9;
   align-items: center;
+  padding: 0px 0px 10px;
 `;
 
 export const StartRow = styled.View`
