@@ -47,10 +47,11 @@ export function toggleDirectionsLoading() {
   }
 }
 
-export function selectDirectionRequest(id) {
+export function selectDirectionRequest(recommendation_id, select) {
   return {
     type: SELECT_DIRECTION_REQUEST,
-    id
+    recommendation_id,
+    select
   }
 }
 

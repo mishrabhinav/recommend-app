@@ -37,7 +37,6 @@ export function * fetchDirectionsHandler() {
     const to = yield select(state => state.getIn(['app', 'destination']).toJS());
     const response = yield call(fetchDirections, { from, to });
 
-    console.log(response.data);
     yield put(fetchDirectionsSuccess(fromJS(response.data)));
   } catch (error) {
     yield put(fetchDirectionsError(fromJS(error)));
@@ -54,7 +53,7 @@ export function * selectDirectionHandler(request) {
   yield put(toggleSelectLoading());
 
   try {
-    yield call(selectDirection, { id: request.id });
+    yield call(selectDirection, { recommendation_id: request.recommendation_id, select: request.select });
     yield put(selectDirectionSuccess(fromJS(request.id)));
   } catch (error) {
     yield put(selectDirectionError(fromJS(error)));
@@ -65,15 +64,22 @@ export function * selectDirectionHandler(request) {
 
 function fetchDirections({ from, to }) {
   return axios({
-    url: `http://localhost:5000/api/retrieve?to=${to.lat},${to.lng}&from=${from.lat},${from.lng}`,
+    url: `http://localhost:5000/api/retrieve?to=${to.lat},${to.lng}&from=${from.lat},${from.lng}&username=mishrabhinav`,
     method: 'GET'
   });
 }
 
-function selectDirection({ id }) {
+function selectDirection({ recommendation_id, select }) {
   return axios({
-    url: `http://localhost:5000?lat=${id}`,
-    method: 'GET'
+    url: `http://localhost:5000/api/select`,
+    method: 'POST',
+    data: {
+      recommendation_id,
+      select
+    },
+    headers: {
+      'Content-Type': 'application/json'
+    }
   });
 }
 

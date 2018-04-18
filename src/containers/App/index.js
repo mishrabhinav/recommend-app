@@ -7,7 +7,7 @@ import ListItem from '../../components/ListItem';
 import Button from '../../components/Button';
 import * as styled from './styled';
 
-import { setLocation, fetchDirectionsRequest } from './actions';
+import { setLocation, fetchDirectionsRequest, selectDirectionRequest } from './actions';
 import { DESTINATION, START_LOCATION } from './constants';
 import { listData } from './data';
 
@@ -70,7 +70,10 @@ class App extends React.Component {
             // data={listData}
             data={(directions.data && directions.data['directions']) || []}
             keyExtractor={item => item._id}
-            renderItem={({ item }) => <ListItem data={item} mode={item._mode}/>}
+            renderItem={({ item }) =>
+              <ListItem data={item} mode={item._mode} onLongPress={() => {
+                this.dispatch(selectDirectionRequest(directions.data['recommendation_id'], item._id));
+              }}/>}
           />
         </styled.PastContainer>
       </styled.Container>
