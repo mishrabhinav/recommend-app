@@ -58,7 +58,7 @@ class ListItem extends React.Component {
 
   render() {
     const height = 50, iconPadding = 20;
-    const { mode } = this.props;
+    const { mode, onLongPress } = this.props;
     const { showDescription } = this.state;
     const { width } = Dimensions.get('window');
 
@@ -74,7 +74,8 @@ class ListItem extends React.Component {
           height={height}
           showDescription={showDescription}
           activeOpacity={0.7}
-          onPress={this._toggleDescription}>
+          onPress={this._toggleDescription}
+          onLongPress={onLongPress}>
           <styled.Mode height={height}>
             <Icon name={`directions-${modeIconLookup[mode]}`} size={height - iconPadding} color='#adadad'/>;
           </styled.Mode>
