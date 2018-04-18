@@ -16,6 +16,7 @@ export default function AutoComplete ({ placeholder, onPress }) {
       enablePoweredByContainer={false}
       onPress={onPress}
       nearbyPlacesAPI='GoogleReverseGeocoding'
+      debounce={200}
       styles={{
         textInputContainer: {
           borderTopWidth: 0,

@@ -6,8 +6,8 @@ const Container = styled.TouchableOpacity`
   background-color: ${props => props.active ? '#33a5ff' : '#ececec'};
   align-items: center;
   justify-content: center;
-  height: 40;
-  border-radius: 5;
+  height: ${props => props.height};
+  border-radius: ${props => props.noRound ? 0 : 5};
 `;
 
 const Text = styled.Text`
@@ -16,10 +16,10 @@ const Text = styled.Text`
 
 class Button extends React.Component {
   render() {
-    const { title, onPress,  active } = this.props;
+    const { title, onPress,  active, noRound, height } = this.props;
 
     return (
-      <Container onPress={active && onPress} active={active} activeOpacity={active ? 0.6 : 1}>
+      <Container onPress={active && onPress} height={height || 40} active={active} noRound={noRound} activeOpacity={active ? 0.6 : 1}>
         <Text active={active}>{title || 'Button'}</Text>
       </Container>
     );
