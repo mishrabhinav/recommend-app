@@ -1,8 +1,10 @@
 import React from 'react';
-import { Text, View, Dimensions, LayoutAnimation } from 'react-native';
+import {Text, View, Dimensions, LayoutAnimation} from 'react-native';
 import * as styled from './styled';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import HTMLView from 'react-native-htmlview';
+
+import Button from '../../components/Button';
 
 const modeIconLookup = {
   'WALKING': 'walk',
@@ -42,7 +44,7 @@ class ListItem extends React.Component {
   }
 
   _renderDirections() {
-    const { mode, data } = this.props;
+    const {mode, data} = this.props;
 
     return data['legs'].map((leg, idxLeg) => {
       return leg['steps'].map((step, idxStep) => {
@@ -50,21 +52,28 @@ class ListItem extends React.Component {
           <HTMLView
             key={`${mode}-${idxLeg}-${idxStep}`}
             value={`<p>${step['html_instructions']}</p>`}
-            // style={{flexDirection: 'row', margin: 25}}
-            renderNode={renderBold} />);
+            renderNode={renderBold}/>
+        );
       });
     });
   }
 
   render() {
     const height = 50, iconPadding = 20;
-    const { mode, onLongPress } = this.props;
-    const { showDescription } = this.state;
-    const { width } = Dimensions.get('window');
+    const {mode, onSelect, data} = this.props;
+    const {showDescription} = this.state;
+    const {width} = Dimensions.get('window');
 
     const description = showDescription && (
       <styled.Information width={width}>
-        {this._renderDirections()}
+        <styled.Row height={height}>
+          <Button title='Start' noRound={true} height={height} onPress={onSelect} active={true}/>
+          <Button title='Map' noRound={true} height={height} onPress={() => {
+          }} active={true}/>
+        </styled.Row>
+        <styled.Directions>
+          {this._renderDirections()}
+        </styled.Directions>
       </styled.Information>
     );
 
@@ -74,16 +83,18 @@ class ListItem extends React.Component {
           height={height}
           showDescription={showDescription}
           activeOpacity={0.7}
-          onPress={this._toggleDescription}
-          onLongPress={onLongPress}>
+          onPress={this._toggleDescription}>
           <styled.Mode height={height}>
-            <Icon name={`directions-${modeIconLookup[mode]}`} size={height - iconPadding} color='#adadad'/>;
+            <Icon name={`directions-${modeIconLookup[mode]}`} size={height - iconPadding} color='#33a5ff'/>;
           </styled.Mode>
           <styled.Summary>
-            <Text>Summary, Distance and Duration</Text>
+            <Text style={{fontWeight: 'bold', fontSize: 14}} numberOfLines={1}>{data['summary'] || 'Summary'}</Text>
+            <Text style={{fontSize: 12}}>
+              {`${data['legs'][0]['distance']['text']} - ${data['legs'][0]['duration']['text']}`}
+            </Text>
           </styled.Summary>
         </styled.Headline>
-        { showDescription && description }
+        {showDescription && description}
       </View>
     );
   }

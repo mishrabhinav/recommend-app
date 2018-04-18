@@ -8,11 +8,26 @@ export const Headline = styled.TouchableOpacity`
   justify-content: center;
 `;
 
+export const Row = styled.View`
+  height: ${props => props.height};
+  width: 100%;
+  flex-direction: row;
+  background-color: #ffffff;
+  align-items: flex-start;
+  justify-content: space-between;
+`;
+
+export const Directions = styled.View`
+  width: 100%;
+  background-color: #ffffff;
+  align-items: flex-start;
+  padding: 10px;
+`;
+
 export const Information = styled.View`
   width: ${props => props.width - 40};
   background-color: white;
   margin: 0px 10px 10px;
-  padding: 10px;
   align-items: flex-start;
 `;
 
@@ -31,4 +46,5 @@ export const Summary = styled.View`
   height: 100%;
   align-items: center;
   justify-content: center;
+  padding: 5px;
 `;
