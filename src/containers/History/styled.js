@@ -16,8 +16,13 @@ export const Row = styled.View`
 
 export const HistoryContainer = styled.View`
   flex: 1;
-  background-color: #f9f9f9;
+  background-color: #f7f7f7;
   width: 100%;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  padding: 0px 10px 10px;
+`;
+
+export const List = styled.FlatList`
+  width: 100%;
 `;
