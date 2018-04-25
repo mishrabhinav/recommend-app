@@ -8,16 +8,22 @@ export const Container = styled(SafeAreaView)`
 `;
 
 export const Row = styled.View`
-  margin: 20px 20px;
+  padding: 10px 20px;
+  margin: 0px 10px;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  background-color: #ffffff;
 `;
 
-export const SettingsContainer = styled.View`
+export const SettingsContainer = styled.ScrollView`
   flex: 1;
-  background-color: #f9f9f9;
+  background-color: #f7f7f7;
   width: 100%;
-  align-items: center;
-  justify-content: center;
+  padding: 10px 0px;
+`;
+
+export const SettingsList = styled.ScrollView`
+  flex: 1;
+  width: 100%;
 `;
