@@ -18,6 +18,9 @@
     "preset": "react-native"
   },
   "dependencies": {
+    "appcenter": "^1.5.0",
+    "appcenter-analytics": "^1.5.0",
+    "appcenter-crashes": "^1.5.0",
     "axios": "^0.18.0",
     "immutable": "^3.8.2",
     "moment": "^2.22.1",
