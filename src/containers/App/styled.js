@@ -1,5 +1,7 @@
 import styled from 'styled-components';
-import { SafeAreaView } from 'react-navigation';
+import {Dimensions} from 'react-native';
+import {SafeAreaView} from 'react-navigation';
+import RNMapView from 'react-native-maps';
 
 export const Container = styled(SafeAreaView)`
   flex: 1;
@@ -18,6 +20,17 @@ export const PastContainer = styled.View`
   background-color: #f9f9f9;
   align-items: center;
   padding: 0px 0px 10px;
+`;
+
+export const SpinnerView = styled.View`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const MapView = styled(RNMapView)`
+  width: ${() => Dimensions.get('window').width};
+  height: 100%;
 `;
 
 export const StartRow = styled.View`

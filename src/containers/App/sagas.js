@@ -40,6 +40,8 @@ export function * fetchDirectionsHandler() {
     yield put(fetchDirectionsSuccess(fromJS(response.data)));
   } catch (error) {
     yield put(fetchDirectionsError(fromJS(error)));
+  } finally {
+    yield put(toggleDirectionsLoading());
   }
 }
 
@@ -57,6 +59,8 @@ export function * selectDirectionHandler(request) {
     yield put(selectDirectionSuccess(fromJS(request.id)));
   } catch (error) {
     yield put(selectDirectionError(fromJS(error)));
+  } finally {
+    yield put(toggleSelectLoading());
   }
 }
 
@@ -64,7 +68,7 @@ export function * selectDirectionHandler(request) {
 
 function fetchDirections({ from, to }) {
   return axios({
-    url: `http://localhost:5000/api/retrieve?to=${to.lat},${to.lng}&from=${from.lat},${from.lng}&username=mishrabhinav`,
+    url: `https://localhost:5000/api/retrieve?to=${to.lat},${to.lng}&from=${from.lat},${from.lng}&username=mishrabhinav`,
     method: 'GET'
   });
 }
