@@ -1,56 +1,45 @@
-import { fromJS } from 'immutable';
-import { createStore, applyMiddleware, compose } from 'redux';
-
+import {fromJS} from 'immutable';
+import {AsyncStorage} from 'react-native';
+import {createStore, applyMiddleware, compose} from 'redux';
+import {autoRehydrate} from 'redux-persist-immutable';
+import createActionBuffer from 'redux-action-buffer';
+import {REHYDRATE} from 'redux-persist';
 import createSagaMiddleware from 'redux-saga';
 
 import createReducer from './reducers';
 import rootSaga from './sagas';
 
-export default function configureStore (initialState = {}) {
+export default function configureStore(initialState = {}) {
   const sagaMiddleware = createSagaMiddleware();
 
   // Create the store with middlewares
   const middlewares = [
-    sagaMiddleware
+    sagaMiddleware,
+    createActionBuffer(REHYDRATE)
   ];
 
   const enhancers = [
     applyMiddleware(...middlewares),
+    autoRehydrate()
   ];
-
-  // If Redux DevTools Extension is installed use it, otherwise use Redux compose
-  /* eslint-disable no-underscore-dangle */
-  const composeEnhancers = process.env.NODE_ENV !== 'production' &&
-    typeof window === 'object' &&
-    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    : compose;
-  /* eslint-enable */
 
   const store = createStore(
     createReducer(),
     fromJS(initialState),
-    composeEnhancers(...enhancers)
+    compose(...enhancers)
   );
 
   // Run root saga
   sagaMiddleware.run(rootSaga);
 
-  // TODO: https://stackoverflow.com/questions/32968016/how-to-dynamically-load-reducers-for-code-splitting-in-a-redux-application
   store.asyncReducers = {}; // Async reducer registry
-
-  if (module.hot) {
-    module.hot.accept(() => {
-      const createReducers = require('./reducers').default;
-      const nextReducers = createReducers(store.asyncReducers);
-
-      store.replaceReducer(nextReducers);
-    });
-  }
-
-  if (global.reduxNativeDevTools) {
-    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ = store;
-  }
+  // persistStore(store, {
+  //   whitelist: ['auth', 'settings'],
+  //   storage: AsyncStorage
+  // }, () => {
+  //   console.log('Done rehydrating');
+  //   store.dispatch(rehydrated());
+  // });
 
   return store;
 }
