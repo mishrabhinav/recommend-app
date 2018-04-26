@@ -1535,6 +1535,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = uk.ac.imperial.RecommendApp;
 				PRODUCT_NAME = recommendapp;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1562,6 +1563,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = uk.ac.imperial.RecommendApp;
 				PRODUCT_NAME = recommendapp;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
