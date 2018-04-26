@@ -25,7 +25,7 @@ class Settings extends React.Component {
   }
 
   render() {
-    const {show, username} = this.props;
+    const {car, walk, bike, transit, username} = this.props;
     return (
       <styled.Container>
         <Header title='Settings'/>
@@ -38,7 +38,7 @@ class Settings extends React.Component {
 
           <styled.Row>
             <Text>Show bike directions</Text>
-            <Switch value={show.bike} onValueChange={this.props.dispatchToggleBike}/>
+            <Switch value={bike.show} onValueChange={this.props.dispatchToggleBike}/>
           </styled.Row>
           <styled.Row>
             <Text>Bicycle Timings</Text>
@@ -51,7 +51,7 @@ class Settings extends React.Component {
 
           <styled.Row>
             <Text>Show driving directions</Text>
-            <Switch value={show.car} onValueChange={this.props.dispatchToggleCar}/>
+            <Switch value={car.show} onValueChange={this.props.dispatchToggleCar}/>
           </styled.Row>
           <styled.Row>
             <Text>Drive Timings</Text>
@@ -64,7 +64,7 @@ class Settings extends React.Component {
 
           <styled.Row>
             <Text>Show walking directions</Text>
-            <Switch value={show.walk} onValueChange={this.props.dispatchToggleWalk}/>
+            <Switch value={walk.show} onValueChange={this.props.dispatchToggleWalk}/>
           </styled.Row>
           <styled.Row>
             <Text>Walk Timings</Text>
@@ -77,7 +77,7 @@ class Settings extends React.Component {
 
           <styled.Row>
             <Text>Show transit directions</Text>
-            <Switch value={show.transit} onValueChange={this.props.dispatchToggleTransit}/>
+            <Switch value={transit.show} onValueChange={this.props.dispatchToggleTransit}/>
           </styled.Row>
           <styled.Row>
             <Text>Transit Timings</Text>
@@ -88,7 +88,7 @@ class Settings extends React.Component {
             <TextInput value={username} keyboardType='numeric'/>
           </styled.Row>
 
-          <styled.Row style={{marginBottom: 20, backgroundColor: '#f7f7f7'}}>
+          <styled.Row style={{marginBottom: 20, backgroundColor: '#eaeaea'}}>
             <Button mode='danger' title='Logout' onPress={this._logout}/>
           </styled.Row>
 
@@ -102,7 +102,10 @@ const mapStateToProps = (state) => {
   const settings = state.get('settings');
   return {
     username: settings.get('username'),
-    show: settings.get('show').toJS()
+    walk: settings.get('walk').toJS(),
+    bike: settings.get('bike').toJS(),
+    car: settings.get('car').toJS(),
+    transit: settings.get('transit').toJS()
   };
 };
 

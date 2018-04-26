@@ -18,7 +18,7 @@ export const Row = styled.View`
 
 export const SettingsContainer = styled.ScrollView`
   flex: 1;
-  background-color: #f7f7f7;
+  background-color: #eaeaea;
   width: 100%;
   padding: 10px 0px;
 `;

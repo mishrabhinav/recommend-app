@@ -27,7 +27,7 @@ export const initialState = fromJS({
 });
 
 function toggleShow(state, key) {
-  return state.setIn(['show', key], !state.getIn(['show', key]));
+  return state.setIn([key, 'show'], !state.getIn([key, 'show']));
 }
 
 export default function settingsPageReducer (state=initialState, action) {

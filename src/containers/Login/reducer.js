@@ -38,7 +38,11 @@ export default function loginPageReducer(state = initialState, action) {
       return state.set('error', action.error);
 
     case REHYDRATE:
-      return action.payload.auth;
+      if (action.payload && action.payload.auth) {
+        return action.payload.auth;
+      }
+
+      return initialState;
 
     case PURGE:
       return initialState;

@@ -34,5 +34,7 @@ export default function configureStore(initialState = {}) {
 
   store.asyncReducers = {}; // Async reducer registry
 
+
+
   return store;
 }
