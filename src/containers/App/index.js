@@ -138,6 +138,7 @@ class App extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+  console.log(state.toJS());
   const app = state.get('app');
   return {
     start: app.get('start').toJS(),

@@ -1,6 +1,6 @@
 import React from 'react';
+import {View, ActivityIndicator, LayoutAnimation} from 'react-native';
 import {connect} from 'react-redux';
-import { View, ActivityIndicator } from 'react-native';
 
 class AuthLoading extends React.Component {
   constructor(props) {
@@ -11,7 +11,8 @@ class AuthLoading extends React.Component {
   }
 
   _checkIfLoggedIn() {
-    this.props.navigation.navigate('Auth');
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    this.props.navigation.navigate(this.props.auth.accessToken ? 'App' : 'Auth');
   }
 
   render() {
@@ -25,7 +26,7 @@ class AuthLoading extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    auth: state.get('auth')
+    auth: state.get('auth').toJS()
   }
 };
 

@@ -20,5 +20,15 @@ export const ImageContainer = styled.View`
   width: 100%;
   align-items: center;
   justify-content: center;
-  background-color: #ff0000;
+  background-color: white;
 `;
+
+export const Image = styled.Image`
+  flex: 1;
+  resizeMode: contain;
+  width: 100%;
+  height: 100%;
+  justifyContent: flex-start;
+  alignItems: flex-start;
+`;
+
