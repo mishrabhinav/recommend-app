@@ -76,7 +76,7 @@ export function* selectDirectionHandler(request) {
 
 function fetchDirections({from, to, accessToken, tokenType}) {
   return axios({
-    url: `http://localhost:5000/api/retrieve?to=${to.lat},${to.lng}&from=${from.lat},${from.lng}`,
+    url: `https://recommend-api.herokuapp.com/api/retrieve?to=${to.lat},${to.lng}&from=${from.lat},${from.lng}`,
     method: 'GET',
     headers: {
       'Authorization': `${tokenType} ${accessToken}`
@@ -86,7 +86,7 @@ function fetchDirections({from, to, accessToken, tokenType}) {
 
 function selectDirection({recommendation_id, select, accessToken, tokenType}) {
   return axios({
-    url: `http://localhost:5000/api/select`,
+    url: `https://recommend-api.herokuapp.com/api/select`,
     method: 'POST',
     data: {
       recommendation_id,
