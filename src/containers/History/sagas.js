@@ -8,6 +8,7 @@ import {
   fetchHistorySuccess,
   toggleHistoryLoading,
 } from './actions';
+import {accessTokenSelector, tokenTypeSelector} from '../../selector';
 
 // Listener
 export function* fetchHistoryListener() {
@@ -24,8 +25,11 @@ export function* fetchHistoryHandler() {
 
   yield put(toggleHistoryLoading());
 
+  const accessToken = yield select(accessTokenSelector);
+  const tokenType = yield select(tokenTypeSelector);
+
   try {
-    const response = yield call(fetchHistory);
+    const response = yield call(fetchHistory, {accessToken, tokenType});
 
     yield put(fetchHistorySuccess(fromJS(response.data)));
   } catch (error) {
@@ -37,10 +41,13 @@ export function* fetchHistoryHandler() {
 
 // API Request
 
-function fetchHistory() {
+function fetchHistory({accessToken, tokenType}) {
   return axios({
-    url: `http://localhost:5000/api/history?username=mishrabhinav`,
-    method: 'GET'
+    url: `http://localhost:5000/api/history`,
+    method: 'GET',
+    headers: {
+      'Authorization': `${tokenType} ${accessToken}`
+    }
   });
 }
 

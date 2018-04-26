@@ -33,13 +33,6 @@ export default function configureStore(initialState = {}) {
   sagaMiddleware.run(rootSaga);
 
   store.asyncReducers = {}; // Async reducer registry
-  // persistStore(store, {
-  //   whitelist: ['auth', 'settings'],
-  //   storage: AsyncStorage
-  // }, () => {
-  //   console.log('Done rehydrating');
-  //   store.dispatch(rehydrated());
-  // });
 
   return store;
 }

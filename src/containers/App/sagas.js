@@ -1,8 +1,8 @@
-import { fromJS } from 'immutable';
-import { fork, takeLatest, call, put, select } from 'redux-saga/effects';
+import {fromJS} from 'immutable';
+import {fork, takeLatest, call, put, select} from 'redux-saga/effects';
 import axios from 'axios';
 
-import { FETCH_DIRECTIONS_REQUEST, SELECT_DIRECTION_REQUEST } from './constants';
+import {FETCH_DIRECTIONS_REQUEST, SELECT_DIRECTION_REQUEST} from './constants';
 import {
   fetchDirectionsError,
   fetchDirectionsSuccess,
@@ -12,18 +12,19 @@ import {
   selectDirectionSuccess,
   toggleSelectLoading
 } from './actions';
+import {accessTokenSelector, tokenTypeSelector} from '../../selector';
 
 // Listener
-export function * fetchDirectionsListener() {
+export function* fetchDirectionsListener() {
   yield takeLatest(FETCH_DIRECTIONS_REQUEST, fetchDirectionsHandler);
 }
 
-export function * selectDirectionListener() {
+export function* selectDirectionListener() {
   yield takeLatest(SELECT_DIRECTION_REQUEST, selectDirectionHandler);
 }
 
 // Handler
-export function * fetchDirectionsHandler() {
+export function* fetchDirectionsHandler() {
   const loading = yield select(state => state.getIn(['app', 'directions', 'loading']));
 
   if (loading) {
@@ -32,10 +33,13 @@ export function * fetchDirectionsHandler() {
 
   yield put(toggleDirectionsLoading());
 
+  const accessToken = yield select(accessTokenSelector);
+  const tokenType = yield select(tokenTypeSelector);
+
   try {
     const from = yield select(state => state.getIn(['app', 'start']).toJS());
     const to = yield select(state => state.getIn(['app', 'destination']).toJS());
-    const response = yield call(fetchDirections, { from, to });
+    const response = yield call(fetchDirections, {from, to, accessToken, tokenType});
 
     yield put(fetchDirectionsSuccess(fromJS(response.data)));
   } catch (error) {
@@ -45,7 +49,7 @@ export function * fetchDirectionsHandler() {
   }
 }
 
-export function * selectDirectionHandler(request) {
+export function* selectDirectionHandler(request) {
   const loading = yield select(state => state.getIn(['app', 'selected', 'loading']));
 
   if (loading) {
@@ -54,8 +58,12 @@ export function * selectDirectionHandler(request) {
 
   yield put(toggleSelectLoading());
 
+  const accessToken = yield select(accessTokenSelector);
+  const tokenType = yield select(tokenTypeSelector);
+
   try {
-    yield call(selectDirection, { recommendation_id: request.recommendation_id, select: request.select });
+    const {recommendation_id, select} = request;
+    yield call(selectDirection, {recommendation_id, select, accessToken, tokenType});
     yield put(selectDirectionSuccess(fromJS(request.id)));
   } catch (error) {
     yield put(selectDirectionError(fromJS(error)));
@@ -66,14 +74,17 @@ export function * selectDirectionHandler(request) {
 
 // API Request
 
-function fetchDirections({ from, to }) {
+function fetchDirections({from, to, accessToken, tokenType}) {
   return axios({
-    url: `https://localhost:5000/api/retrieve?to=${to.lat},${to.lng}&from=${from.lat},${from.lng}&username=mishrabhinav`,
-    method: 'GET'
+    url: `http://localhost:5000/api/retrieve?to=${to.lat},${to.lng}&from=${from.lat},${from.lng}`,
+    method: 'GET',
+    headers: {
+      'Authorization': `${tokenType} ${accessToken}`
+    }
   });
 }
 
-function selectDirection({ recommendation_id, select }) {
+function selectDirection({recommendation_id, select, accessToken, tokenType}) {
   return axios({
     url: `http://localhost:5000/api/select`,
     method: 'POST',
@@ -82,6 +93,7 @@ function selectDirection({ recommendation_id, select }) {
       select
     },
     headers: {
+      'Authorization': `${tokenType} ${accessToken}`,
       'Content-Type': 'application/json'
     }
   });
@@ -89,7 +101,7 @@ function selectDirection({ recommendation_id, select }) {
 
 // Root Saga
 
-export default function * rootSaga () {
+export default function* rootSaga() {
   yield fork(fetchDirectionsListener);
   yield fork(selectDirectionListener);
 }

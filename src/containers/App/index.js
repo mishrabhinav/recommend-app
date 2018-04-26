@@ -48,7 +48,6 @@ class App extends React.Component {
           },
           error: null,
         });
-        console.log(position);
       },
       (error) => this.setState({ error: error.message }),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
@@ -138,7 +137,6 @@ class App extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state.toJS());
   const app = state.get('app');
   return {
     start: app.get('start').toJS(),
