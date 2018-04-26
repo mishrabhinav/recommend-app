@@ -8,12 +8,21 @@ import {
 } from "./constants";
 
 export const initialState = fromJS({
-  username: 'mishrabhinav',
-  show: {
-    bike: true,
-    car: true,
-    walk: true,
-    transit: true
+  bike: {
+    show: true,
+    limits: []
+  },
+  car: {
+    show: true,
+    limits: []
+  },
+  walk: {
+    show: true,
+    limits: []
+  },
+  transit: {
+    show: true,
+    limits: []
   }
 });
 

@@ -1,3 +1,5 @@
+import {PURGE} from 'redux-persist';
+
 import { SET_USERNAME, TOGGLE_BIKE, TOGGLE_CAR, TOGGLE_TRANSIT, TOGGLE_WALK } from "./constants";
 
 export function setUsername(username) {
@@ -28,5 +30,11 @@ export function toggleWalk() {
 export function toggleTransit() {
   return {
     type: TOGGLE_TRANSIT
+  }
+}
+
+export function logout() {
+  return {
+    type: PURGE
   }
 }
