@@ -113,7 +113,7 @@ DEPENDENCIES:
   - React/RCTText (from `../node_modules/react-native`)
   - React/RCTVibration (from `../node_modules/react-native`)
   - React/RCTWebSocket (from `../node_modules/react-native`)
-  - yoga (from `../node_modules/react-native/ReactCommon/yoga/yoga.podspec`)
+  - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
@@ -137,7 +137,7 @@ EXTERNAL SOURCES:
   react-native-maps:
     :path: "../node_modules/react-native-maps"
   yoga:
-    :path: "../node_modules/react-native/ReactCommon/yoga/yoga.podspec"
+    :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
   AppCenter: 05e11ff99d3224131363abb61830172f5f28e53e
@@ -153,6 +153,6 @@ SPEC CHECKSUMS:
   react-native-maps: 066c2afcc89e18726377bcc685315f989ca22449
   yoga: 55da126afc384965b96bff46652464373b330add
 
-PODFILE CHECKSUM: 9eae51a310df661f53e99f9aad1ce28b62c386ac
+PODFILE CHECKSUM: fdfd368da88b9ecba1990d25477f9f2c24dab922
 
 COCOAPODS: 1.5.0
