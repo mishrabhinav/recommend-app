@@ -6,6 +6,7 @@ target 'recommendapp' do
   rn_maps_path = '../node_modules/react-native-maps'
 
   # See http://facebook.github.io/react-native/docs/integration-with-existing-apps.html#configuring-cocoapods-dependencies
+  pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
   pod 'React', :path => '../node_modules/react-native', subspecs: [
     'Core',
     'CxxBridge',
@@ -21,8 +22,6 @@ target 'recommendapp' do
     'RCTVibration',
     'RCTWebSocket',
   ]
-
-  pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
 
   # React Native third party dependencies podspecs
   pod 'DoubleConversion', :podspec => "#{rn_path}/third-party-podspecs/DoubleConversion.podspec"
