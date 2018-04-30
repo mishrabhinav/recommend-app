@@ -7,6 +7,20 @@ PODS:
   - AppCenterReactNativeShared (1.5.0):
     - AppCenter/Core (= 1.6.0)
   - boost-for-react-native (1.63.0)
+  - CodePush (5.3.2):
+    - CodePush/Base64 (= 5.3.2)
+    - CodePush/Core (= 5.3.2)
+    - CodePush/JWT (= 5.3.2)
+    - CodePush/SSZipArchive (= 5.3.2)
+    - React
+  - CodePush/Base64 (5.3.2):
+    - React
+  - CodePush/Core (5.3.2):
+    - React
+  - CodePush/JWT (5.3.2):
+    - React
+  - CodePush/SSZipArchive (5.3.2):
+    - React
   - DoubleConversion (1.1.5)
   - Folly (2016.09.26.00):
     - boost-for-react-native
@@ -93,6 +107,7 @@ DEPENDENCIES:
   - AppCenter/Analytics (~> 1.6.0)
   - AppCenter/Crashes (~> 1.6.0)
   - AppCenterReactNativeShared (~> 1.5.0)
+  - CodePush (from `../node_modules/react-native-code-push`)
   - Google-Maps-iOS-Utils
   - GoogleMaps
   - react-native-google-maps (from `../node_modules/react-native-maps`)
@@ -113,6 +128,8 @@ DEPENDENCIES:
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 EXTERNAL SOURCES:
+  CodePush:
+    :path: ../node_modules/react-native-code-push
   React:
     :path: ../node_modules/react-native
   react-native-google-maps:
@@ -126,6 +143,7 @@ SPEC CHECKSUMS:
   AppCenter: 05e11ff99d3224131363abb61830172f5f28e53e
   AppCenterReactNativeShared: fac1cabd1f76cc2f7019a53a58eaae60734a68bd
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
+  CodePush: 6067cba84de640d557fdef545d3c8eb0c3ce0f55
   DoubleConversion: e22e0762848812a87afd67ffda3998d9ef29170c
   Folly: 211775e49d8da0ca658aebc8eab89d642935755c
   glog: 1de0bb937dccdc981596d3b5825ebfb765017ded
@@ -136,6 +154,6 @@ SPEC CHECKSUMS:
   react-native-maps: fb06a43ce6884256097eec1dd69d23957b71df88
   yoga: de5853128c499decde39904270f22f75d36d7668
 
-PODFILE CHECKSUM: 502f900d81dc64d050b0eafa63a4c8d9b598c1e1
+PODFILE CHECKSUM: 0dd80aac69427f9fd5e2407c47b2059c1cee7ef7
 
 COCOAPODS: 1.3.1

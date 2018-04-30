@@ -33,6 +33,8 @@ target 'recommendapp' do
   pod 'AppCenter/Crashes', '~> 1.6.0'
   pod 'AppCenter/Analytics', '~> 1.6.0'
   pod 'AppCenterReactNativeShared', '~> 1.5.0'
+  pod 'CodePush', :path => '../node_modules/react-native-code-push'
+
 end
 
 post_install do |installer|
