@@ -101,15 +101,15 @@ class App extends React.Component {
           />
         </styled.PastContainer>
       );
-    // } else {
-    //   return (
-    //     <styled.SpinnerView>
-    //       <styled.MapView
-    //         region={this.state.region}
-    //         onRegionChange={this._onRegionChange}
-    //       />
-    //     </styled.SpinnerView>
-    //   );
+    } else {
+      return (
+        <styled.SpinnerView>
+          <styled.MapView
+            region={this.state.region}
+            onRegionChange={this._onRegionChange}
+          />
+        </styled.SpinnerView>
+      );
     }
   }
 
