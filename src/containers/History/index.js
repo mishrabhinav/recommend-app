@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Text} from 'react-native';
+import {Text, LayoutAnimation} from 'react-native';
 import * as styled from './styled';
 
 import Header from '../../components/Header';
@@ -13,10 +13,18 @@ class History extends React.Component {
     super(props);
 
     props.dispatch(fetchHistoryRequest());
+
+    this._fetchHistory = this._fetchHistory.bind(this);
+  }
+
+  _fetchHistory() {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+
+    this.props.dispatch(fetchHistoryRequest());
   }
 
   render() {
-    const {data} = this.props;
+    const {data, loading} = this.props;
 
     return (
       <styled.Container>
@@ -24,6 +32,8 @@ class History extends React.Component {
         <styled.HistoryContainer>
           <styled.List
             data={data}
+            refreshing={loading}
+            onRefresh={this._fetchHistory}
             keyExtractor={item => item._id}
             showsVerticalScrollIndicator={false}
             renderItem={({item}) =>

@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Text, View, FlatList, LayoutAnimation, ActivityIndicator} from 'react-native';
-import MapView from 'react-native-maps';
+import {PROVIDER_GOOGLE} from 'react-native-maps';
 
 import Autocomplete from '../../components/Autocomplete';
 import ListItem from '../../components/ListItem';
@@ -10,7 +10,6 @@ import * as styled from './styled';
 
 import {setLocation, fetchDirectionsRequest, selectDirectionRequest} from './actions';
 import {DESTINATION, START_LOCATION} from './constants';
-import {listData} from './data';
 
 class App extends React.Component {
   constructor(props) {
@@ -105,7 +104,10 @@ class App extends React.Component {
       return (
         <styled.SpinnerView>
           <styled.MapView
-            region={this.state.region}
+            provider={PROVIDER_GOOGLE}
+            initialRegion={this.state.region}
+            showsUserLocation={true}
+            showsMyLocationButton={true}
             onRegionChange={this._onRegionChange}
           />
         </styled.SpinnerView>
@@ -127,7 +129,11 @@ class App extends React.Component {
             <Autocomplete placeholder='Destination' onPress={this._setDestination}/>
           </styled.Row>
           <styled.DestRow>
-            <Button title='Get Directions' onPress={this._getDirections} active={active}/>
+            <Button
+              title='Get Directions'
+              onPress={this._getDirections}
+              disabled={!active}
+              mode={!active ? 'disabled': 'primary'}/>
           </styled.DestRow>
         </styled.FormContainer>
         {this._renderDirectionsOrSpinner()}

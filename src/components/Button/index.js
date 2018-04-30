@@ -31,7 +31,8 @@ class Button extends React.Component {
     const {title, onPress, mode, noRound, height, disabled} = this.props;
 
     return (
-      <Container onPress={!disabled && onPress} height={height || 40} mode={mode || 'primary'} noRound={noRound}
+      <Container onPress={!disabled && onPress} height={height || 40}
+                 mode={mode || 'primary'} noRound={noRound}
                  activeOpacity={!disabled ? 0.6 : 1}>
         <Text mode={mode || 'primary'}>{title || 'Button'}</Text>
       </Container>

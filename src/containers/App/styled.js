@@ -26,6 +26,8 @@ export const SpinnerView = styled.View`
   flex: 1;
   align-items: center;
   justify-content: center;
+  width: ${() => Dimensions.get('window').width};
+  height: 100%;
 `;
 
 export const MapView = styled(RNMapView)`
