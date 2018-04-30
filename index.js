@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import codePush from 'react-native-code-push';
 import {fromJS} from 'immutable';
 import {AppRegistry, View, ActivityIndicator, AsyncStorage} from 'react-native';
 import {Provider} from 'react-redux';
@@ -44,5 +45,7 @@ class Root extends Component {
     );
   }
 }
+
+Root = codePush(Root);
 
 export default AppRegistry.registerComponent('recommendapp', () => Root);

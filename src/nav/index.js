@@ -23,7 +23,7 @@ const appRouteConfig = {
 };
 
 const appNavigatorConfig = {
-  initialRouteName: 'Settings',
+  initialRouteName: 'Directions',
   navigationOptions: ({ navigation }) => ({
     tabBarIcon: ({ tintColor }) => {
       const { routeName } = navigation.state;
