@@ -14,6 +14,10 @@ class Settings extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      changed: false
+    };
+
     this._logout = this._logout.bind(this);
   }
 
@@ -24,8 +28,32 @@ class Settings extends React.Component {
     this.props.navigation.navigate('AuthLoading');
   }
 
+  _renderModeSettings(mode, ctrl, onValueChange) {
+    return (
+      <View>
+        <styled.Row dark={!ctrl.show} style={!ctrl.show && {marginBottom: 10}}>
+          <Text>{`Show ${mode} directions`}</Text>
+          <Switch value={ctrl.show} onValueChange={onValueChange}/>
+        </styled.Row>
+        {ctrl.show &&
+          <View>
+            <styled.Row>
+              <Text style={{flex: 2}}>Distance (km)</Text>
+              <TextInput value={`${Math.ceil(ctrl.distance[0] / 1000)}`} keyboardType='numeric'/>
+              <TextInput value={`${Math.ceil(ctrl.distance[1] / 1000)}`} keyboardType='numeric'/>
+            </styled.Row>
+            <styled.Row style={{marginBottom: 10}}>
+              <Text style={{flex: 2}}>Duration (mins)</Text>
+              <TextInput value={`${Math.ceil(ctrl.duration[0] / 60)}`} keyboardType='numeric'/>
+              <TextInput value={`${Math.ceil(ctrl.duration[1] / 60)}`} keyboardType='numeric'/>
+            </styled.Row>
+          </View>
+        }
+      </View>
+    );
+  }
+
   render() {
-    const {car, walk, bike, transit, username} = this.props;
     return (
       <styled.Container>
         <Header title='Settings'/>
@@ -33,60 +61,20 @@ class Settings extends React.Component {
 
           <styled.Row style={{marginBottom: 10}}>
             <Icon name='user-circle-o' size={25}/>
-            <TextInput value={username} style={{marginLeft: 15}}/>
+            <Text style={{flex: 1, marginLeft: 15}}>{this.props.username}</Text>
           </styled.Row>
 
-          <styled.Row>
-            <Text>Show bike directions</Text>
-            <Switch value={bike.show} onValueChange={this.props.dispatchToggleBike}/>
-          </styled.Row>
-          <styled.Row>
-            <Text>Bicycle Timings</Text>
-          </styled.Row>
-          <styled.Row style={{marginBottom: 10}}>
-            <TextInput value={username} keyboardType='numeric'/>
-            <TextInput value={username} keyboardType='numeric'/>
-            <TextInput value={username} keyboardType='numeric'/>
-          </styled.Row>
+          {this._renderModeSettings('bike', this.props.bike, this.props.dispatchToggleBike)}
+          {this._renderModeSettings('driving', this.props.car, this.props.dispatchToggleCar)}
+          {this._renderModeSettings('walking', this.props.walk, this.props.dispatchToggleWalk)}
+          {this._renderModeSettings('transit', this.props.transit, this.props.dispatchToggleTransit)}
 
-          <styled.Row>
-            <Text>Show driving directions</Text>
-            <Switch value={car.show} onValueChange={this.props.dispatchToggleCar}/>
-          </styled.Row>
-          <styled.Row>
-            <Text>Drive Timings</Text>
-          </styled.Row>
-          <styled.Row style={{marginBottom: 10}}>
-            <TextInput value={username} keyboardType='numeric'/>
-            <TextInput value={username} keyboardType='numeric'/>
-            <TextInput value={username} keyboardType='numeric'/>
-          </styled.Row>
-
-          <styled.Row>
-            <Text>Show walking directions</Text>
-            <Switch value={walk.show} onValueChange={this.props.dispatchToggleWalk}/>
-          </styled.Row>
-          <styled.Row>
-            <Text>Walk Timings</Text>
-          </styled.Row>
-          <styled.Row style={{marginBottom: 10}}>
-            <TextInput value={username} keyboardType='numeric'/>
-            <TextInput value={username} keyboardType='numeric'/>
-            <TextInput value={username} keyboardType='numeric'/>
-          </styled.Row>
-
-          <styled.Row>
-            <Text>Show transit directions</Text>
-            <Switch value={transit.show} onValueChange={this.props.dispatchToggleTransit}/>
-          </styled.Row>
-          <styled.Row>
-            <Text>Transit Timings</Text>
-          </styled.Row>
-          <styled.Row style={{marginBottom: 10}}>
-            <TextInput value={username} keyboardType='numeric'/>
-            <TextInput value={username} keyboardType='numeric'/>
-            <TextInput value={username} keyboardType='numeric'/>
-          </styled.Row>
+          {this.state.changed &&
+            <styled.Row style={{backgroundColor: '#eaeaea'}}>
+              <Button mode='primary' title='Reset' onPress={() => {}} style={{marginRight: 10}}/>
+              <Button mode='success' title='Save' onPress={() => {}} style={{marginLeft: 10}}/>
+            </styled.Row>
+          }
 
           <styled.Row style={{marginBottom: 20, backgroundColor: '#eaeaea'}}>
             <Button mode='danger' title='Logout' onPress={this._logout}/>
@@ -101,20 +89,27 @@ class Settings extends React.Component {
 const mapStateToProps = (state) => {
   const settings = state.get('settings');
   return {
-    username: settings.get('username'),
-    walk: settings.get('walk').toJS(),
-    bike: settings.get('bike').toJS(),
-    car: settings.get('car').toJS(),
-    transit: settings.get('transit').toJS()
+    username: 'Testing Account',
+    walk: settings.get('WALKING').toJS(),
+    bike: settings.get('BICYCLING').toJS(),
+    car: settings.get('DRIVING').toJS(),
+    transit: settings.get('TRANSIT').toJS()
   };
 };
 
 function mapDispatchToProps(dispatch) {
+  const animate = (action) => {
+    return () => {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+      dispatch(action())
+    };
+  };
+
   return {
-    dispatchToggleWalk: () => dispatch(toggleWalk()),
-    dispatchToggleBike: () => dispatch(toggleBike()),
-    dispatchToggleCar: () => dispatch(toggleCar()),
-    dispatchToggleTransit: () => dispatch(toggleTransit()),
+    dispatchToggleWalk: animate(toggleWalk),
+    dispatchToggleBike: animate(toggleBike),
+    dispatchToggleCar: animate(toggleCar),
+    dispatchToggleTransit: animate(toggleTransit),
     dispatchLogout: () => dispatch(logout())
   };
 }
