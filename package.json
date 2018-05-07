@@ -18,6 +18,7 @@
     "preset": "react-native"
   },
   "dependencies": {
+    "@mapbox/polyline": "^1.0.0",
     "appcenter": "^1.5.0",
     "appcenter-analytics": "^1.5.0",
     "appcenter-crashes": "^1.5.0",
