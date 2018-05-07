@@ -6,6 +6,7 @@ import {PROVIDER_GOOGLE} from 'react-native-maps';
 import Autocomplete from '../../components/Autocomplete';
 import ListItem from '../../components/ListItem';
 import Button from '../../components/Button';
+import PolylineMap from '../../components/PolylineMap';
 import * as styled from './styled';
 
 import {setLocation, fetchDirectionsRequest, selectDirectionRequest} from './actions';
@@ -20,8 +21,8 @@ class App extends React.Component {
       region: {
         latitude: 37.78825,
         longitude: -122.4324,
-        latitudeDelta: 0.09,
-        longitudeDelta: 0.04,
+        latitudeDelta: 0.009,
+        longitudeDelta: 0.004,
       }
     };
 
@@ -35,7 +36,6 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    // this.props.navigation.navigate('DrawerOpen');
     navigator.geolocation.getCurrentPosition(
       (position) => {
         this.setState({
@@ -48,8 +48,8 @@ class App extends React.Component {
           error: null,
         });
       },
-      (error) => this.setState({ error: error.message }),
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+      (error) => this.setState({error: error.message}),
+      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
     );
   }
 
@@ -76,21 +76,18 @@ class App extends React.Component {
 
   _getDirections() {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    this.setState({showDirectionsList: true});
-
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     this.dispatch(fetchDirectionsRequest());
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
   }
 
   _renderDirectionsOrSpinner() {
-    const { directions } = this.props;
-    if (directions.loading) {
-      return <styled.SpinnerView><ActivityIndicator size="large" color="#33a5ff"/></styled.SpinnerView>;
-    } else if (this.state.showDirectionsList) {
+    const {directions} = this.props;
+
+    if (false && directions.data) {
       return (
         <styled.PastContainer>
           <styled.List
-            data={(directions.data && directions.data['directions']) || []}
+            data={directions.data['directions'] || []}
             showsVerticalScrollIndicator={false}
             keyExtractor={item => item._id}
             renderItem={({item}) =>
@@ -100,19 +97,13 @@ class App extends React.Component {
           />
         </styled.PastContainer>
       );
-    } else {
-      return (
-        <styled.SpinnerView>
-          <styled.MapView
-            provider={PROVIDER_GOOGLE}
-            initialRegion={this.state.region}
-            showsUserLocation={true}
-            showsMyLocationButton={true}
-            onRegionChange={this._onRegionChange}
-          />
-        </styled.SpinnerView>
-      );
     }
+
+    return (
+      <styled.SpinnerView>
+        <PolylineMap directions={(directions.data && directions.data.directions) || []}/>
+      </styled.SpinnerView>
+    );
   }
 
   render() {
@@ -130,10 +121,10 @@ class App extends React.Component {
           </styled.Row>
           <styled.DestRow>
             <Button
-              title='Get Directions'
-              onPress={this._getDirections}
+              title={!directions.loading ? 'Get Directions' : <ActivityIndicator color="white"/>}
+              onPress={!directions.loading ? this._getDirections : undefined}
               disabled={!active}
-              mode={!active ? 'disabled': 'primary'}/>
+              mode={!active ? 'disabled' : 'primary'}/>
           </styled.DestRow>
         </styled.FormContainer>
         {this._renderDirectionsOrSpinner()}
