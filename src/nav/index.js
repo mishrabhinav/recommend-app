@@ -1,5 +1,5 @@
 import React from 'react';
-import { TabNavigator, StackNavigator, SwitchNavigator } from 'react-navigation';
+import {TabNavigator, StackNavigator, SwitchNavigator} from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -18,21 +18,20 @@ const appRouteConfig = {
   },
   Settings: {
     screen: Settings,
-    title: 'Settings'
   }
 };
 
 const appNavigatorConfig = {
   initialRouteName: 'Directions',
-  navigationOptions: ({ navigation }) => ({
-    tabBarIcon: ({ tintColor }) => {
-      const { routeName } = navigation.state;
+  navigationOptions: ({navigation}) => ({
+    tabBarIcon: ({tintColor}) => {
+      const {routeName} = navigation.state;
       if (routeName === 'History') {
-        return <Icon name='history' size={25} color={tintColor} />;
+        return <Icon name='history' size={25} color={tintColor}/>;
       } else if (routeName == 'Directions') {
-        return <Icon2 name='directions-fork' size={25} color={tintColor} />;
+        return <Icon2 name='directions-fork' size={25} color={tintColor}/>;
       } else if (routeName == 'Settings') {
-        return <Icon name='settings' size={25} color={tintColor} />;
+        return <Icon name='settings' size={25} color={tintColor}/>;
       }
     },
   }),
