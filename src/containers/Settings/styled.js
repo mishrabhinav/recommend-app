@@ -13,12 +13,12 @@ export const Row = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  background-color: ${props => props.dark ? '#f9f9f9' : '#ffffff'};
+  background-color: ${props => props.dark ? '#eaeaea' : '#fff'};
 `;
 
 export const SettingsContainer = styled.ScrollView`
   flex: 1;
-  background-color: #eaeaea;
+  background-color: #f9f9f9;
   width: 100%;
   padding: 10px 0px;
 `;

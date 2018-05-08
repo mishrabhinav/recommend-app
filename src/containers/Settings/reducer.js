@@ -4,10 +4,12 @@ import {
   TOGGLE_CAR,
   TOGGLE_BIKE,
   TOGGLE_TRANSIT,
-  TOGGLE_WALK
+  TOGGLE_WALK,
+  SET_DIRECTION_MODE
 } from "./constants";
 
 export const initialState = fromJS({
+  directionMode: 'map',
   distance: [3000, 6000],
   duration: [1200, 1800],
   WALKING: {
@@ -40,6 +42,9 @@ export default function settingsPageReducer (state=initialState, action) {
   switch (action.type) {
     case SET_USERNAME:
       return state.set('username', action.username);
+
+    case SET_DIRECTION_MODE:
+      return state.set('directionMode', action.mode);
 
     case TOGGLE_BIKE:
       return toggleShow(state, 'BICYCLING');

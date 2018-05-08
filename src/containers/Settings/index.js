@@ -8,7 +8,7 @@ import Header from '../../components/Header';
 import TextInput from '../../components/TextInput';
 import Button from '../../components/Button';
 
-import {toggleBike, toggleCar, toggleTransit, toggleWalk, logout} from './actions';
+import {toggleBike, toggleCar, toggleTransit, toggleWalk, logout, setDirectionMode} from './actions';
 
 class Settings extends React.Component {
   constructor(props) {
@@ -76,7 +76,7 @@ class Settings extends React.Component {
             </styled.Row>
           }
 
-          <styled.Row style={{marginBottom: 20, backgroundColor: '#eaeaea'}}>
+          <styled.Row style={{marginBottom: 20, backgroundColor: '#f9f9f9'}}>
             <Button mode='danger' title='Logout' onPress={this._logout}/>
           </styled.Row>
 
@@ -93,7 +93,8 @@ const mapStateToProps = (state) => {
     walk: settings.get('WALKING').toJS(),
     bike: settings.get('BICYCLING').toJS(),
     car: settings.get('DRIVING').toJS(),
-    transit: settings.get('TRANSIT').toJS()
+    transit: settings.get('TRANSIT').toJS(),
+    directionMode: settings.get('directionMode')
   };
 };
 
@@ -110,6 +111,7 @@ function mapDispatchToProps(dispatch) {
     dispatchToggleBike: animate(toggleBike),
     dispatchToggleCar: animate(toggleCar),
     dispatchToggleTransit: animate(toggleTransit),
+    dispatchDirectionMode: mode => dispatch(setDirectionMode(mode)),
     dispatchLogout: () => dispatch(logout())
   };
 }

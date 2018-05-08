@@ -1,11 +1,18 @@
 import {PURGE} from 'redux-persist';
 
-import { SET_USERNAME, TOGGLE_BIKE, TOGGLE_CAR, TOGGLE_TRANSIT, TOGGLE_WALK } from "./constants";
+import {SET_DIRECTION_MODE, SET_USERNAME, TOGGLE_BIKE, TOGGLE_CAR, TOGGLE_TRANSIT, TOGGLE_WALK} from "./constants";
 
 export function setUsername(username) {
   return {
     type: SET_USERNAME,
     username
+  }
+}
+
+export function setDirectionMode(mode) {
+  return {
+    type: SET_DIRECTION_MODE,
+    mode
   }
 }
 
