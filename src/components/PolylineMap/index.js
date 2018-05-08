@@ -11,6 +11,9 @@ import {
 import MapView, {PROVIDER_GOOGLE, Polyline} from "react-native-maps";
 import MBPolyline from '@mapbox/polyline';
 
+import * as styled from './styled';
+import DirectionCard from '../../components/DirectionCard';
+
 const {width, height} = Dimensions.get("window");
 
 const CARD_HEIGHT = height / 4;
@@ -50,6 +53,7 @@ class PolylineMap extends Component {
 
     this._onRegionChange = this._onRegionChange.bind(this);
     this._renderPolylines = this._renderPolylines.bind(this);
+    this._polylineComponent = this._polylineComponent.bind(this);
   }
 
   componentDidMount() {
@@ -106,33 +110,44 @@ class PolylineMap extends Component {
     this.setState({...this.state, region});
   }
 
-  _renderPolylines() {
-    return this.props.directions.map((direction, index) => {
-      if (this.state.currentIndex !== index) {
-        return;
+  _polylineComponent(direction, index) {
+    const {currentIndex} = this.state;
+    const points = MBPolyline.decode(direction.overview_polyline.points);
+    const coords = points.map((point) => {
+      return {
+        latitude: point[0],
+        longitude: point[1]
       }
-
-      const points = MBPolyline.decode(direction.overview_polyline.points);
-      const coords = points.map((point) => {
-        return {
-          latitude: point[0],
-          longitude: point[1]
-        }
-      });
-
-      return (
-        <Polyline
-          key={index}
-          coordinates={coords}
-          strokeWidth={2}
-          strokeColor={direction.color || 'red'}/>
-      );
     });
+
+    return (
+      <View key={index}>
+        <Polyline coordinates={coords} strokeWidth={currentIndex === index ? 6 : 0} strokeColor='#0064b3'/>
+        <Polyline coordinates={coords} strokeWidth={3} strokeColor={currentIndex === index ? '#008fff' : '#c6c6c6'}/>
+      </View>
+    );
+  }
+
+  _renderPolylines() {
+    const {currentIndex} = this.state;
+    const {directions} = this.props;
+
+    const polylines = directions.map((direction, index) => {
+      if (currentIndex !== index) {
+        return this._polylineComponent(direction, index);
+      }
+    });
+
+    if (directions.length > 0) {
+      polylines.push(this._polylineComponent(directions[currentIndex], currentIndex));
+    }
+
+    return polylines;
   }
 
   render() {
     return (
-      <View style={styles.container}>
+      <styled.Container>
         <MapView
           ref={map => this.map = map}
           initialRegion={this.state.region}
@@ -144,7 +159,7 @@ class PolylineMap extends Component {
         >
           {this._renderPolylines()}
         </MapView>
-        <Animated.ScrollView
+        <styled.ScrollView
           horizontal
           scrollEventThrottle={1}
           showsHorizontalScrollIndicator={false}
@@ -160,21 +175,12 @@ class PolylineMap extends Component {
             ],
             {useNativeDriver: true}
           )}
-          style={styles.scrollView}
-          contentContainerStyle={styles.endPadding}
         >
           {this.props.directions.map((direction, index) => (
-            <View style={styles.card} key={index}>
-              <View style={styles.textContent}>
-                <Text numberOfLines={1} style={styles.cardtitle}>{direction.summary || 'Summary'}</Text>
-                <Text numberOfLines={1} style={styles.cardDescription}>
-                  {direction.description || 'Description'}
-                </Text>
-              </View>
-            </View>
+            <DirectionCard height={CARD_HEIGHT} width={CARD_WIDTH} direction={direction} key={index}/>
           ))}
-        </Animated.ScrollView>
-      </View>
+        </styled.ScrollView>
+      </styled.Container>
     );
   }
 }
@@ -184,41 +190,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: width,
     height: '100%'
-  },
-  scrollView: {
-    position: "absolute",
-    bottom: 10,
-    left: 0,
-    right: 0,
-  },
-  endPadding: {
-    paddingRight: 0,
-  },
-  card: {
-    padding: 10,
-    elevation: 2,
-    backgroundColor: "#FFF",
-    marginHorizontal: 10,
-    shadowColor: "#000",
-    shadowRadius: 10,
-    shadowOpacity: 1,
-    shadowOffset: {x: 2, y: -2},
-    height: CARD_HEIGHT,
-    width: CARD_WIDTH,
-    overflow: "hidden",
-  },
-  textContent: {
-    flex: 1,
-  },
-  cardtitle: {
-    fontSize: 12,
-    marginTop: 5,
-    fontWeight: "bold",
-  },
-  cardDescription: {
-    fontSize: 12,
-    color: "#444",
-  },
+  }
 });
 
 export default PolylineMap;
