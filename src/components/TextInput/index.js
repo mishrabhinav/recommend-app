@@ -7,19 +7,23 @@ const StyledContainer = styled.View`
 `;
 
 const StyledTextInput = styled.TextInput`
-  height: 30px;
-  background-color: #FFFFFF;
+  height: 40px;
+  background-color: #f6f9f7;
+  border-radius: 5px;
+  margin-top: 10px;
+  padding: 10px;
+  font-size: 16px;
 `;
 
 class TextInput extends Component {
   render() {
-    const {onChange, placeholder, value, style, keyboardType} = this.props;
+    const {onChangeText, placeholder, value, style, keyboardType} = this.props;
 
     return (
       <StyledContainer style={style}>
         <StyledTextInput
           ref={(ref) => {this.input = ref}}
-          onChange={onChange}
+          onChangeText={onChangeText}
           placeholder={placeholder}
           clearButtonMode='while-editing'
           autoCapitalize='none'

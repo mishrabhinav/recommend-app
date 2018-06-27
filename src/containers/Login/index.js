@@ -26,6 +26,7 @@ class Login extends React.Component {
         audience: 'https://recommend-api.herokuapp.com'
       });
 
+      console.log(credentials);
       dispatch(setAuthTokens(credentials));
 
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);

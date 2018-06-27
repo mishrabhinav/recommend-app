@@ -43,7 +43,7 @@ export function* fetchHistoryHandler() {
 
 function fetchHistory({accessToken, tokenType}) {
   return axios({
-    url: `https://recommend-api.herokuapp.com/api/history`,
+    url: `http://localhost:5000/api/history`,
     method: 'GET',
     headers: {
       'Authorization': `${tokenType} ${accessToken}`

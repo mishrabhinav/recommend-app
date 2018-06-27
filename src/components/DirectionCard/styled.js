@@ -15,7 +15,7 @@ export const TextContent = styled.View`
   flex: 1;
 `;
 
-export const CardHeader = styled.View`
+export const CardHeader = styled.TouchableOpacity`
   padding-horizontal: 10px
   flex-direction: row;
   height: ${props => props.height};
@@ -35,7 +35,14 @@ export const CardTitle = styled.Text`
   margin-horizontal: 5px;
 `;
 
-export const CardDescription = styled.Text`
-    font-size: 12px;
-    color: #444;
+export const CardDescription = styled.View`
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+`;
+
+export const CardText = styled.Text`
+  font-size: 20px;
+  font-weight: bold;
+  color: #008fff;
 `;

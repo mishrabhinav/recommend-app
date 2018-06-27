@@ -22,7 +22,6 @@ const CARD_WIDTH = width - 20;
 class PolylineMap extends Component {
   constructor(props) {
     super(props);
-
     this.animation = new Animated.Value(0);
 
     this.state = {
@@ -177,7 +176,7 @@ class PolylineMap extends Component {
           )}
         >
           {this.props.directions.map((direction, index) => (
-            <DirectionCard height={CARD_HEIGHT} width={CARD_WIDTH} direction={direction} key={index}/>
+            <DirectionCard height={CARD_HEIGHT} width={CARD_WIDTH} direction={direction} key={index} onDirectionSelect={this.props.onDirectionSelect}/>
           ))}
         </styled.ScrollView>
       </styled.Container>

@@ -9,8 +9,9 @@ import Button from '../../components/Button';
 import PolylineMap from '../../components/PolylineMap';
 import * as styled from './styled';
 
-import {setLocation, fetchDirectionsRequest, selectDirectionRequest} from './actions';
+import {setLocation, setGroup, fetchDirectionsRequest, selectDirectionRequest} from './actions';
 import {DESTINATION, START_LOCATION} from './constants';
+import TextInput from "../../components/TextInput";
 
 class App extends React.Component {
   constructor(props) {
@@ -101,7 +102,9 @@ class App extends React.Component {
 
     return (
       <styled.SpinnerView>
-        <PolylineMap directions={(directions.data && directions.data.directions) || []}/>
+        <PolylineMap directions={(directions.data && directions.data.directions) || []} onDirectionSelect={(id) => {
+          this.dispatch(selectDirectionRequest(directions.data['recommendation_id'], id, this.props.group));
+        }}/>
       </styled.SpinnerView>
     );
   }
@@ -118,6 +121,9 @@ class App extends React.Component {
           </styled.StartRow>
           <styled.Row>
             <Autocomplete placeholder='Destination' onPress={this._setDestination}/>
+          </styled.Row>
+          <styled.Row>
+            <TextInput placeholder='Add companions' onChangeText={(val) => {this.dispatch(setGroup(val))}}/>
           </styled.Row>
           <styled.DestRow>
             <Button
@@ -137,6 +143,7 @@ const mapStateToProps = (state) => {
   const app = state.get('app');
   return {
     start: app.get('start').toJS(),
+    group: app.get('group'),
     destination: app.get('destination').toJS(),
     directions: app.get('directions').toJS(),
     currentLocation: app.get('current').toJS()

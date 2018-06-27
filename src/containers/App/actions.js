@@ -1,5 +1,6 @@
 import {
   SET_LOCATION,
+  SET_GROUP,
 
   FETCH_DIRECTIONS_ERROR,
   FETCH_DIRECTIONS_REQUEST,
@@ -19,6 +20,13 @@ export function setLocation(lat, lng, locationType) {
     lng,
     locationType
   };
+}
+
+export function setGroup(group) {
+  return {
+    type: SET_GROUP,
+    group
+  }
 }
 
 export function fetchDirectionsRequest() {
@@ -47,11 +55,12 @@ export function toggleDirectionsLoading() {
   }
 }
 
-export function selectDirectionRequest(recommendation_id, select) {
+export function selectDirectionRequest(recommendation_id, select, group) {
   return {
     type: SELECT_DIRECTION_REQUEST,
     recommendation_id,
-    select
+    select,
+    group
   }
 }
 

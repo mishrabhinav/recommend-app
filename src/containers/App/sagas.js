@@ -39,7 +39,10 @@ export function* fetchDirectionsHandler() {
   try {
     const from = yield select(state => state.getIn(['app', 'start']).toJS());
     const to = yield select(state => state.getIn(['app', 'destination']).toJS());
-    const response = yield call(fetchDirections, {from, to, accessToken, tokenType});
+    const group = yield select(state => state.getIn(['app', 'group']));
+    console.log(group);
+    const response = yield call(fetchDirections, {from, to, group, accessToken, tokenType});
+    console.log(response);
 
     yield put(fetchDirectionsSuccess(fromJS(response.data)));
   } catch (error) {
@@ -74,9 +77,17 @@ export function* selectDirectionHandler(request) {
 
 // API Request
 
-function fetchDirections({from, to, accessToken, tokenType}) {
+function fetchDirections({from, to, group, accessToken, tokenType}) {
+  axios({
+    url: `http://localhost:5000/api/user`,
+    method: 'GET',
+    headers: {
+      'Authorization': `${tokenType} ${accessToken}`
+    }
+  });
+
   return axios({
-    url: `https://recommend-api.herokuapp.com/api/retrieve?to=${to.lat},${to.lng}&from=${from.lat},${from.lng}`,
+    url: `http://localhost:5000/api/retrieve?to=${to.lat},${to.lng}&from=${from.lat},${from.lng}&group=${group}`,
     method: 'GET',
     headers: {
       'Authorization': `${tokenType} ${accessToken}`
@@ -86,7 +97,7 @@ function fetchDirections({from, to, accessToken, tokenType}) {
 
 function selectDirection({recommendation_id, select, accessToken, tokenType}) {
   return axios({
-    url: `https://recommend-api.herokuapp.com/api/select`,
+    url: `http://localhost:5000/api/select`,
     method: 'POST',
     data: {
       recommendation_id,

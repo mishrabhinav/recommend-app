@@ -1,6 +1,7 @@
 import { fromJS } from 'immutable';
 import {
   SET_LOCATION,
+  SET_GROUP,
   START_LOCATION,
   DESTINATION,
 
@@ -22,6 +23,7 @@ export const initialState = fromJS({
     lat: null,
     lng: null
   },
+  group: '',
   current : {
     lat: null,
     lng: null
@@ -50,6 +52,9 @@ export default function appPageReducer (state = initialState, action) {
       }
 
       return state.set(key, fromJS({ lat: action.lat, lng: action.lng }));
+
+    case SET_GROUP:
+      return state.set('group', action.group);
 
     case FETCH_DIRECTIONS_SUCCESS:
       return state.setIn(['directions', 'data'], action.data);

@@ -51,14 +51,14 @@ class DirectionCard extends React.Component {
   }
 
   render() {
-    const {width, height, direction} = this.props;
+    const {width, height, direction, onDirectionSelect} = this.props;
 
     const summary = direction.summary || transitIconSummary(direction) || 'Summary';
 
     return (
       <styled.Card height={height} width={width}>
         <styled.TextContent>
-          <styled.CardHeader height={40}>
+          <styled.CardHeader height={40} onPress={() => onDirectionSelect(direction._id)}>
             {typeof summary === 'string' &&
             <Icon
               name={`directions-${modeIconLookup[direction._mode.toUpperCase()]}`}
@@ -69,7 +69,10 @@ class DirectionCard extends React.Component {
           </styled.CardHeader>
           <styled.CardBody>
             <styled.CardDescription>
-              {direction.description || 'Description'}
+              <styled.CardText>
+                {`${direction.legs[0].duration.text} | ${direction.legs[0].distance.text} | ${direction._priority}`}
+                </styled.CardText>
+              {/*{direction._priority}*/}
             </styled.CardDescription>
           </styled.CardBody>
         </styled.TextContent>
